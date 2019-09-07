@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
 import queryString from "query-string";
+import Torus from "@toruslabs/torus-embed";
+import Squarelink from 'squarelink'
+import Web3 from 'web3'
 import fakeAuth from "fake-auth";
+import { useRouter } from "./router";
+
+const SQ_CODE = process.env.REACT_APP_SQ_CODE
 
 /*
     Handles authentication with fakeAuth, a library for prototyping ...
@@ -38,6 +44,17 @@ function useProvideAuth() {
     });
   };
 
+  const setTorusUser = (torus, user) => {
+    console.log('setTorusUser', user)
+     setUser(user)
+     window.torus = torus
+     window.web3 = new Web3(torus.provider)
+     if (SQ_CODE) {
+     window.squareLink = new Squarelink()
+     }
+     return user
+  }
+  
   const signup = (email, password) => {
     return fakeAuth.signup(email, password).then(user => {
       setUser(user);
@@ -72,7 +89,6 @@ function useProvideAuth() {
     const unsubscribe = fakeAuth.onChange(user => {
       setUser(user);
     });
-
     // Call unsubscribe on cleanup
     return () => unsubscribe();
   }, []);
@@ -94,6 +110,7 @@ function useProvideAuth() {
     signin,
     signup,
     signout,
+    setTorusUser,
     sendPasswordResetEmail,
     confirmPasswordReset
   };

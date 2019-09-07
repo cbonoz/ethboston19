@@ -12,20 +12,20 @@ function FeaturesSection(props) {
             {
               title: "Tap into a network of lenders",
               description:
-                "Anonymously share",
+                "Create an account with just your gmail, no credit card, social security, address, or other personal information needed.",
               image: "https://uploads.divjoy.com/undraw-mind_map_cwng.svg"
             },
             {
-              title: "Find money when you need it most",
+              title: "We'll pair you with an offer that matches your criteria",
               description:
-                "Integer ornare neque mauris, ac vulputate lacus venenatis et. Pellentesque ut ultrices purus.",
+                "Powered by the Taxa network, privately search and redeem a loan with another friend in the network.",
               image:
                 "https://uploads.divjoy.com/undraw-personal_settings_kihd.svg"
             },
             {
               title: "Celebrate",
               description:
-                "Integer ornare neque mauris, ac vulputate lacus venenatis et. Pellentesque ut ultrices purus.",
+                "You got money! Pay it back on the agreed terms.",
               image: "https://uploads.divjoy.com/undraw-having_fun_iais.svg"
             }
           ]}

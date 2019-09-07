@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FormStatus from "./../FormStatus";
 import FormField from "./../FormField";
 import SectionButton from "./../SectionButton";
-import { Link } from "./../../util/router.js";
+import { Link, useRouter } from "./../../util/router.js";
 import googleLogo from "../../assets/torus_google_login.svg"
 import Torus from "@toruslabs/torus-embed";
 import Web3 from "web3";
@@ -10,29 +10,44 @@ import Web3 from "web3";
 import "./styles.scss";
 
 import loadingSpinner from '../../assets/loading_spinner.gif'
+import { useAuth } from "../../util/auth";
 
 function Auth(props) {
   // State for all inputs
+  const auth = useAuth()
+  const router = useRouter()
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
   const [torus, setTorus] = useState(null)
   const [loading, setLoading] = useState(false)
 
-  // Whether to show errors
-  // We set to true if they submit and there are errors.
-  // We only show errors after they submit because
-  // it's annoying to see errors while typing.
+  useEffect(() => {
+
+    const loc = window.location.pathname
+    if (loc === "/signin" || loc === "/signup") {
+      if (auth && auth.user) {
+        router.push("/dashboard")
+      }
+    }
+  }, [auth])
+
   const [showErrors, setShowErrors] = useState(false);
 
   const torusLogin = async () => {
     setLoading(true)
+    const torus = window.torus
     try {
-      const torus = new Torus();
-      await torus.init();
-      await torus.login(); // await torus.ethereum.enable()
-      window.torus = torus
-      window.web3 = new Web3(torus.provider);
+      await torus.login()// await torus.ethereum.enable()
+    } catch (e) {
+      // continue, might already have session
+    }
+
+    try {
+      window.web3 = new Web3(torus.provider)
+      const userInfo = await torus.getUserInfo()
+      auth.setTorusUser(torus, userInfo)
+      router.push("/dashboard")
     } catch (e) {
       console.error(e)
     }
@@ -180,9 +195,8 @@ function Auth(props) {
           </div>
         )}
       </form>
-
-      <p className='centered'>or</p>
-
+      <hr/>
+      <p className='centered or-text'>or</p>
       {loading && <img src={loadingSpinner}/>}
       {!loading && <div className="torus-login">
         <img src={googleLogo} className='login-button centered' onClick={() => torusLogin()}/>

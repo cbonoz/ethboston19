@@ -14,6 +14,13 @@
 
 .login-button {
   cursor: pointer;
+  display: block;
+  justify-content: center;
   margin: 0 auto;
   text-align: center;
+}
+
+.or-text {
+  font-weight: bold;
+  font-size: 16px;
 }

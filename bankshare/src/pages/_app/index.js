@@ -1,33 +1,31 @@
-import React from "react";
-import Navbar from "./../../components/Navbar";
-import HomePage from "./../home";
-import AboutPage from "./../about";
-import FaqPage from "./../faq";
-import PricingPage from "./../pricing";
-import ContactPage from "./../contact";
-import DashboardPage from "./../dashboard";
-import SigninPage from "./../signin";
-import SignupPage from "./../signup";
-import ForgotpassPage from "./../forgotpass";
-import ChangepassPage from "./../changepass";
-import { Switch, Route, Router } from "./../../util/router.js";
-import Footer from "./../../components/Footer";
-import analytics from "./../../util/analytics.js";
-import { ProvideAuth } from "./../../util/auth.js";
-import "./styles.scss";
+import React from "react"
+import Navbar from "./../../components/Navbar"
+import HomePage from "./../home"
+import AboutPage from "./../about"
+import FaqPage from "./../faq"
+import PricingPage from "./../pricing"
+import ContactPage from "./../contact"
+import DashboardPage from "./../dashboard"
+import SigninPage from "./../signin"
+import SignupPage from "./../signup"
+import ForgotpassPage from "./../forgotpass"
+import ChangepassPage from "./../changepass"
+import { Switch, Route, Router, useRouter } from "./../../util/router.js"
+import Footer from "./../../components/Footer"
+import { ProvideAuth, useAuth } from "./../../util/auth.js"
 
-import bankShare from '../../assets/bankshare_logo.png'
+import "./styles.scss"
+
+import bankShare from "../../assets/bankshare_logo.png"
+
 
 function App(props) {
+
   return (
     <ProvideAuth>
       <Router>
         <>
-          <Navbar
-            color="white"
-            spaced={true}
-            logo={bankShare}
-          />
+          <Navbar color="white" spaced={true} logo={bankShare} />
 
           <Switch>
             <Route exact path="/" component={HomePage} />
@@ -54,7 +52,7 @@ function App(props) {
                     The page <code>{location.pathname}</code> could not be
                     found.
                   </div>
-                );
+                )
               }}
             />
           </Switch>
@@ -63,12 +61,12 @@ function App(props) {
             color="light"
             size="normal"
             logo={bankShare}
-            copyright="© 2019 Bankshare"
+            copyright="©2019 BankShare"
           />
         </>
       </Router>
     </ProvideAuth>
-  );
+  )
 }
 
-export default App;
+export default App

@@ -11,8 +11,7 @@ function SignIn(props) {
 
   const onSubmit = ({ email, pass }) => {
     setStatus({ type: "pending" })
-    auth
-      .signin(email, pass)
+    auth.signin(email, pass)
       .then(user => {
         props.onSignin && props.onSignin()
       })

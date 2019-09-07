@@ -1,0 +1,14 @@
+{
+  "name": "TaxaUI",
+  "description": "Taxa Management UI",
+  "version": "0.0.1",
+  "serverConfig" : {
+     "exeFileFolder" : "/home/taxa/server"
+  },
+  "fileStoreConfig" : {
+     "tmpFolder": "/tmp"
+  },
+  "contractConfig" : {
+     "folder" : "/home/taxa/server/sha256"
+  }
+}

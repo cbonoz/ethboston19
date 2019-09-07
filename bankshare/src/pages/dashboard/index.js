@@ -1,42 +1,38 @@
-import React, { useEffect, useState } from "react";
-import DashboardSection from "./../../components/DashboardSection";
-import { useAuth } from "./../../util/auth.js";
-import { useRouter } from "./../../util/router.js";
-import "./styles.scss";
+import React, { useEffect, useState } from "react"
+import { useAuth } from "./../../util/auth.js"
+import { useRouter } from "./../../util/router.js"
+import "./styles.scss"
 
+import logo from "../../assets/bankshare_icon.png"
+import { strict } from "assert";
 
 function DashboardPage(props) {
-  const auth = useAuth();
-  const router = useRouter();
-  const torus = window.torus
+  const auth = useAuth()
+  const router = useRouter()
 
   const [user, setUser] = useState(null)
+  setUser(auth.user)
 
   // Redirect to signin
   // if not signed in.
-  useEffect(async () => {
+  useEffect(() => {
     if (auth.user === false) {
-      router.push("/signin");
+      router.push("/signin")
     }
-
-    try { 
-      const userInfo = torus.getUserInfo()
-      setUser(userInfo)
-    } catch (e) {
-      console.error('error getting info', e)
-    }
-
-  }, [auth]);
+  }, [auth])
 
   // TODO: Dashboard page after logging in.
   return (
-    <DashboardSection
-      color="white"
-      size="large"
-      title="Dashboard"
-      subtitle="Dashboard components are coming to the Divjoy library soon. For now, you can implement a custom dashboard here after exporting your code."
-    />
-  );
+    <div className="dashboard-section">
+      <div className="dashboard-header centered">
+        <img className="centered image-block" src={logo} />
+      </div>
+      <div className="columns center-container">
+        <div className='column is-half'>{JSON.stringify(user)}</div>
+        <div className='column is-half'>hi</div>
+      </div>
+    </div>
+  )
 }
 
-export default DashboardPage;
+export default DashboardPage

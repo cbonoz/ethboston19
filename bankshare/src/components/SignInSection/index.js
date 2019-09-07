@@ -5,6 +5,8 @@ import SignIn from "./../SignIn";
 import { useRouter } from "./../../util/router.js";
 import "./styles.scss";
 
+import logo from '../../assets/bankshare_icon.png'
+
 function SignInSection(props) {
   const router = useRouter();
 
@@ -14,8 +16,11 @@ function SignInSection(props) {
   };
 
   return (
-    <Section color={props.color} size={props.size}>
+    <div color={props.color} size={props.size}>
       <div className="container">
+        <div className='image-block'>
+          <img src={logo} className='centered image-block'/>
+        </div>
         <SectionHeader
           title={props.title}
           subtitle={props.subtitle}
@@ -28,7 +33,7 @@ function SignInSection(props) {
           onSignin={onSignin}
         />
       </div>
-    </Section>
+    </div>
   );
 }
 
