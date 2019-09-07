@@ -21,7 +21,7 @@ function HomePage(props) {
         buttonText="Get Started"
         image="https://uploads.divjoy.com/undraw-japan_ubgk.svg"
         buttonOnClick={() => {
-          router.push("/login");
+          router.push("/signin");
         }}
       />
       <FeaturesSection

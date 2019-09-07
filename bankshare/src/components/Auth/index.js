@@ -9,6 +9,8 @@ import Web3 from "web3";
 
 import "./styles.scss";
 
+import loadingSpinner from '../../assets/loading_spinner.gif'
+
 function Auth(props) {
   // State for all inputs
   const [email, setEmail] = useState("");
@@ -178,9 +180,12 @@ function Auth(props) {
           </div>
         )}
       </form>
+
+      <p className='centered'>or</p>
+
       {loading && <img src={loadingSpinner}/>}
       {!loading && <div className="torus-login">
-        <img src={googleLogo} className='login-button' onClick={() => torusLogin()}/>
+        <img src={googleLogo} className='login-button centered' onClick={() => torusLogin()}/>
       </div>}
     </div>
   );

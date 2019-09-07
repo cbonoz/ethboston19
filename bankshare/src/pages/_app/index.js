@@ -16,6 +16,8 @@ import analytics from "./../../util/analytics.js";
 import { ProvideAuth } from "./../../util/auth.js";
 import "./styles.scss";
 
+import bankShare from '../../assets/bankshare_logo.png'
+
 function App(props) {
   return (
     <ProvideAuth>
@@ -24,7 +26,7 @@ function App(props) {
           <Navbar
             color="white"
             spaced={true}
-            logo="https://uploads.divjoy.com/logo.svg"
+            logo={bankShare}
           />
 
           <Switch>
@@ -60,8 +62,8 @@ function App(props) {
           <Footer
             color="light"
             size="normal"
-            logo="https://uploads.divjoy.com/logo.svg"
-            copyright="© 2019 Company"
+            logo={bankShare}
+            copyright="© 2019 Bankshare"
           />
         </>
       </Router>

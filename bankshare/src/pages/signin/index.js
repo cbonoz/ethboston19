@@ -7,7 +7,7 @@ function SigninPage(props) {
     <SignInSection
       color="white"
       size="large"
-      title="Welcome back"
+      title="Welcome to BankShare"
       subtitle=""
       buttonText="Sign in"
     />
