@@ -19,7 +19,7 @@ function RecentStream(props) {
       currency: 'ETH'
     }
     const nextBlocks = [block, ...blocks]
-    const len = Math.min(10, nextBlocks.length)
+    const len = Math.min(6, nextBlocks.length)
     setBlocks(nextBlocks.slice(0, len))
   }
 
@@ -46,11 +46,11 @@ function RecentStream(props) {
         const ts = new Date(timestamp)
         const dateString = `${ts.toDateString()} ${ts.toLocaleTimeString()}`
         return (
-        <div className='payment-block'>
+        <div className='payment-block' key={i}>
           <div className='payment-block-header'>
-            {dateString}
+            Recent Transaction: {dateString}
           </div>
-          <div className="live-block" key={i}>
+          <div className="live-block">
             {sender} -> {recipient}<br/>
             {amount.toFixed(5)} {currency}<br/>
           </div>

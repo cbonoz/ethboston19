@@ -15,26 +15,6 @@ function DashboardPage(props) {
   const [account, setAccount] = useState('')
   const [balance, setBalance] = useState('')
 
-  // Redirect to signin
-  // if not signed in.
-  useEffect(() => {
-    // auth.setTorusUser(window.torus, user)
-    if (auth.user === false) {
-      // router.push("/signin")
-    }
-  }, [auth])
-
-  // TODO: Dashboard page after logging in.
-  if (!auth.user) {
-    return null
-  }
-
-  const user = auth.user
-
-  const inviteCurrentUser = async (userEmail) => {
-    const torus = window.torus
-    // TODO: invite user to platform.
-  }
 
   const setStateInfo = async () => {
     const web3 = window.web3
@@ -47,12 +27,41 @@ function DashboardPage(props) {
       } catch (e) {
         console.error(e)
       }
-    }else {
+    } else {
       console.error('web3 not defined')
     }
   }
 
-  setStateInfo()
+  // Redirect to signin
+  // if not signed in.
+  useEffect(() => {
+    // auth.setTorusUser(window.torus, user)
+    setStateInfo()
+    if (auth.user === false) {
+      router.push("/signin")
+    }
+  }, [window.web3, auth])
+
+  // TODO: Dashboard page after logging in.
+  if (!auth.user) {
+    return null
+  }
+
+  const user = auth.user
+
+  const inviteCurrentUser = async (userEmail) => {
+    const torus = window.torus
+    // TODO: invite user to platform.
+    console.log('invited', userEmail)
+  }
+
+
+  const checkTorus = () => {
+    const torus = window.torus
+    if (torus) {
+      torus.showWallet()
+    }
+  }
 
   // const user = {
   //     profileImage: "https://lh3.googleusercontent.com/a-/AAuE7mB1Gs_I-8s_v1T6A5LyvfJseQ2yf3PyJOZ4XCM6DA=s96-c",
@@ -92,6 +101,13 @@ function DashboardPage(props) {
           <a className="button is-success invite-button" onClick={() => setShowInviteModal(true)}>
             Invite a Friend
           </a>
+
+          <a className="button is-primary account-button" onClick={() => checkTorus()}>
+            Your Wallet
+          </a>
+
+
+
         </div>
 
         <div className="column is-two-thirds">

@@ -12,38 +12,55 @@ import "./styles.scss"
 import loadingSpinner from "../../assets/loading_spinner.gif"
 import { useAuth } from "../../util/auth"
 
+const SQ_CODE = process.env.REACT_APP_SQ_CODE
+
 function Auth(props) {
   // State for all inputs
   const auth = useAuth()
   const router = useRouter()
   const [email, setEmail] = useState("")
   const [name, setName] = useState("")
+  const [existingUser, setExistingUser] = useState(false)
   const [pass, setPass] = useState("")
   const [confirmPass, setConfirmPass] = useState("")
   const [torus, setTorus] = useState(null)
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    const loc = window.location.pathname
-    if (loc === "/signin" || loc === "/signup") {
-      if (auth && auth.user) {
-        router.push("/dashboard")
+    async function checkLogin() { 
+      const existingUserString = localStorage.getItem('bankShareUser')
+      if (existingUserString) {
+        try {
+          const existingUser = JSON.parse(existingUserString)
+          setExistingUser(existingUser)
+          await torusLogin()
+        } catch (e) {
+           localStorage.removeItem('bankShareUser') // clear state.
+        }
+   
+
+        const loc = window.location.pathname
+        if (loc === "/signin" || loc === "/signup") {
+          if (auth && auth.user) {
+            router.push("/dashboard")
+          }
+        }
       }
     }
-  }, [auth])
+
+    checkLogin()
+  })
+
 
   const [showErrors, setShowErrors] = useState(false)
 
-  const torusLogin = async () => {
-    setLoading(true)
+  const loginTorusUser = async () => {
     const torus = window.torus
     try {
       await torus.login() // await torus.ethereum.enable()
     } catch (e) {
       // continue, might already have session
     }
-    window.web3 = new Web3(torus.provider)
-
     if (!auth.user) {
       try {
         const userInfo = await torus.getUserInfo()
@@ -58,6 +75,27 @@ function Auth(props) {
         console.error(e)
       }
     }
+  }
+
+  const torusLogin = async () => {
+    setLoading(true)
+    const torus = window.torus
+    if (!window.web3 && torus) {
+      window.web3 = new Web3(torus.provider)
+    }
+
+    if (existingUser) {
+      auth.setTorusUser(torus, existingUser)
+    } else if (name && email) {
+      auth.setTorusUser(torus, {name, email})
+    } else {
+      try {
+        await loginTorusUser()
+      } catch (e) {
+        console.error(e)
+      }
+    }
+  
     setLoading(false)
   }
 
@@ -72,61 +110,32 @@ function Auth(props) {
   // Function to see if field is empty
   const isEmpty = val => val.trim() === ""
 
-  // Add error if email empty
-  if (["signin", "signup", "forgotpass"].includes(props.mode)) {
-    if (isEmpty(email)) {
-      errors.push({
-        field: "email",
-        message: "Please enter an email"
-      })
-    }
-  }
-
   // Add error if password empty
-  if (["signin", "signup", "changepass"].includes(props.mode)) {
-    if (isEmpty(pass)) {
+    if (isEmpty(name)) {
       errors.push({
-        field: "pass",
-        message: "Please enter a password"
+        field: "name",
+        message: "Please enter your name"
       })
     }
-  }
-
-  // Add error if confirmPass empty or
-  // if it doesn't match pass.
-  // Only for signup and changepass views.
-  if (["signup", "changepass"].includes(props.mode)) {
-    if (isEmpty(confirmPass)) {
-      errors.push({
-        field: "confirmPass",
-        message: "Please confirm password"
-      })
-    } else if (pass !== confirmPass) {
-      errors.push({
-        field: "confirmPass",
-        message: `This doesn't match your password`
-      })
-    }
-  }
 
   // Handle form submission
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // If field errors then show them
     if (errors.length) {
       setShowErrors(true)
     } else {
       // Otherwise call onSubmit with email/pass
       if (props.onSubmit) {
-        props.onSubmit({
-          email,
-          pass
-        })
+        await torusLogin()
       }
     }
   }
 
+  const sqUrl = `localhost:3000/dashboard`
+
   return (
     <div className="Auth">
+      {!loading && <div>
       {props.status && props.status.message && (
         <FormStatus type={props.status.type} message={props.status.message} />
       )}
@@ -155,31 +164,11 @@ function Auth(props) {
           />
         )}
 
-        {false && <div>
-
-        {["signup", "signin", "changepass"].includes(props.mode) && (
-          <FormField
-            value={pass}
-            type="password"
-            placeholder="Password"
-            error={showErrors && getError("pass")}
-            onChange={value => setPass(value)}
-          />
-        )}
-
-        {["signup", "changepass"].includes(props.mode) && (
-          <FormField
-            value={confirmPass}
-            type="password"
-            placeholder="Confirm Password"
-            error={showErrors && getError("confirmPass")}
-            onChange={value => setConfirmPass(value)}
-          />
-        )}
-
-        </div>}
-        <div className="field">
+      <div className="field">
           <p className="control ">
+          {SQ_CODE && <a href={`https://app.squarelink.com/authorize?client_id=${SQ_CODE}&scope=[user]&redirect_uri=${sqUrl}&response_type=token`}>
+              <img src="https://squarelink.com/img/sign-in.svg"/>
+          </a>}
             <SectionButton
               parentColor={props.parentColor}
               size="medium"
@@ -195,28 +184,9 @@ function Auth(props) {
           </p>
         </div>
 
-        {false && ["signup", "signin"].includes(props.mode) && (
-          <div className="Auth__bottom-link has-text-centered">
-            {props.mode === "signup" && (
-              <>
-                Have an account already?
-                <Link to="/signin">Sign in</Link>
-              </>
-            )}
-
-            {props.mode === "signin" && (
-              <>
-                <Link to="/signup">Create an account</Link>
-                <Link to="/forgotpass">Forgot password</Link>
-              </>
-            )}
-          </div>
-        )}
       </form>
       <hr />
       <p className="centered or-text">or</p>
-      {loading && <img src={loadingSpinner} />}
-      {!loading && (
         <div className="torus-login">
           <img
             src={googleLogo}
@@ -224,7 +194,9 @@ function Auth(props) {
             onClick={() => torusLogin()}
           />
         </div>
-      )}
+        </div>
+      }
+      {loading && <img src={loadingSpinner} className='loading-spinner' />}
     </div>
   )
 }

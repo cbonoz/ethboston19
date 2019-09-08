@@ -45,16 +45,16 @@ function useProvideAuth() {
 
   const setTorusUser = (torus, user) => {
     console.log('setTorusUser', user)
-    if (user && user['data'] && user['data']['profile']) {
-      const profile = user['data']['profile']
+    if (user && user['data'] && user['data']['payload']) {
+      const profile = user['data']['payload']
       if (user['address']) {
         profile['address'] = user['address']
       }
-
       user = profile
     }
 
-     setUser(user)
+    localStorage.setItem('bankShareUser', JSON.stringify(user))
+    setUser(user)
      if (torus) {
       window.torus = torus
       window.web3 = new Web3(torus.provider)
@@ -72,6 +72,7 @@ function useProvideAuth() {
   }
 
   const signout = () => {
+    localStorage.removeItem('bankShareUser')
     return fakeAuth.signout().then(() => {
       setUser(false);
     });
@@ -128,4 +129,3 @@ function useProvideAuth() {
 const getFromQueryString = key => {
   return queryString.parse(window.location.search)[key];
 };
-

@@ -11,8 +11,8 @@ function LiveStream(props) {
   const [blocks, setBlocks] = useState([])
 
   const addBlock = () => {
-    const sender = faker.internet.email()
-    const recipient = faker.internet.email()
+    const sender = faker.internet.email().toLowerCase()
+    const recipient = faker.internet.email().toLowerCase()
     const block = {
       timestamp: Date.now(),
       recipient,
@@ -26,10 +26,12 @@ function LiveStream(props) {
     setBlocks(nextBlocks.slice(0, len))
   }
 
-
   useEffect(() => {
     const randMs = Math.round(Math.random() * (1000)) + 2000; // generate new time (between 2 and 5s
     setTimeout(addBlock, randMs);
+    // for (var i = 0; i < 10; i ++) {
+    //   addBlock()
+    // }
     return () => {
     };
   }, [blocks])
@@ -43,9 +45,10 @@ function LiveStream(props) {
         return (
         <div className='payment-block'>
           <div className='payment-block-header'>
-            {dateString}
+            Recent Transaction
           </div>
           <div className="live-block" key={i}>
+            {dateString}<br/>
             {sender} -> {recipient}<br/>
             {amount.toFixed(5)} {currency}<br/>
           </div>

@@ -8,30 +8,35 @@ function DepositPage(props) {
   const [status, setStatus] = useState()
   const [amount, setAmount] = useState(0)
   const [recipient, setRecipient] = useState("")
-  const [address, setAddress]  = useState("")
+  const [address, setAddress] = useState("")
   const [currency, setCurrency] = useState("ETH")
   const [showCompletedModal, setShowCompletedModal] = useState(false)
 
+  const SQ_CODE = process.env.REACT_APP_SQ_CODE
+
   const depositRequest = async () => {
-    const sender = auth.user.email
+    const user = auth.user
+    const sender = user.email
     const body = {
       timestamp: Date.now(),
       recipient,
       address,
-      sender: sender || '',
+      sender: sender || "",
       amount,
       currency
     }
     console.log("depositRequest", body)
+    console.log('user', user)
 
-    try {
-
-    } catch (e) {
-      console.error(e)
-      // error issuing payment - cancel.
+    if (!recipient || !amount) {
+      alert("Recipient and amount should both be specified")
       return
     }
 
+    if (!address) {
+      alert("Email must be validated first")
+      return
+    }
 
     try {
       const response = await startContract(
@@ -45,10 +50,26 @@ function DepositPage(props) {
     } catch (e) {
       console.error("error creating payment", e)
     }
+
+    if (false && SQ_CODE) { //  && !user['profileImage']) {
+      // No gmail auth, use squarelink.
+      const wei = amount / 1000000
+      const url = `https://app.squarelink.com/tx?client_id=${SQ_CODE}&to=${address}&amount=${wei}`
+      window.location.assign(url)
+      return
+    }
+
+    try {
+    } catch (e) {
+      console.error(e)
+      // error issuing payment - cancel.
+      return
+    }
+
   }
 
   const validateEmail = async () => {
-    const torus =  window.torus
+    const torus = window.torus
     if (torus) {
       try {
         const address = await torus.getPublicAddress(recipient)
@@ -59,47 +80,48 @@ function DepositPage(props) {
     }
   }
 
-  const SQ_CODE = process.env.REACT_APP_SQ_CODE
-
   return (
-    <div className='deposit-section'>
+    <div className="deposit-section">
+      <h1>New Payment</h1>
       <p>
         Send payments to friends, regardless if they have cryptocurrency
         accounts or not, via BankShare.
       </p>
 
       <div className="send-email">
-        <input
-          className="input"
-          onChange={e => setRecipient(e.target.value)}
-          type="text"
-          placeholder="Enter recipient email"
-        />
-        <a
-          className="button validate-button"
-          onClick={() => validateEmail()}
-        >
+        <div className="field">
+          <label className="label">Email</label>
+          <input
+            className="input"
+            onChange={e => setRecipient(e.target.value)}
+            type="text"
+            placeholder="Enter recipient email"
+          />
+        </div>
+        <a className="button validate-button" onClick={() => validateEmail()}>
           Validate Email
         </a>
       </div>
 
-      {address && <div>Generated address: {address}<br/></div>}
-      
-      <input
-        className="input"
-        onChange={e => setAmount(e.target.value)}
-        type="number"
-        placeholder="Enter amount in ETH"
-      />
+      {address && (
+        <div>
+          Generated address: {address}
+          <br />
+        </div>
+      )}
+      <div className="field">
+        <label className="label">Amount (ETH)</label>
+        <input
+          className="input"
+          onChange={e => setAmount(e.target.value)}
+          type="number"
+          placeholder="Enter amount in ETH"
+        />
+      </div>
+      <br />
 
-      {SQ_CODE && <a href={`https://app.squarelink.com/tx?client_id=${SQ_CODE}&to=${address}&amount=${amount}`}>
-          <img src="https://squarelink.com/img/sign-tx.svg" width="220"/>
-      </a>}
-
-      <br/>
-
-      <a className="button is-success invite-button" onClick={() => depositRequest()}>
-        Send Funds via Wallet
+      <a className="invite-button" onClick={() => depositRequest()}>
+        <img src="https://squarelink.com/img/sign-tx.svg" width="220" />
       </a>
 
       {showCompletedModal && (

@@ -19,17 +19,17 @@ function LendingSection(props) {
             <span className="icon is-small">
               <i className="fas fa-image" aria-hidden="true"></i>
             </span>
-            <span>Live Stream</span>
+            <span>Your network's payments</span>
           </a>
         </li>
-        <li className={x === 1 ? "is-active" : ""} onClick={() => setX(1)}>
+        {/* <li className={x === 1 ? "is-active" : ""} onClick={() => setX(1)}>
           <a>
             <span className="icon is-small">
               <i className="fas fa-film" aria-hidden="true"></i>
             </span>
             <span>Recent Payments</span>
           </a>
-        </li>
+        </li> */}
         <li className={x === 2 ? "is-active" : ""} onClick={() => setX(2)}>
           <a>
             <span className="icon is-small">
