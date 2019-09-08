@@ -131,7 +131,8 @@ function Auth(props) {
     }
   }
 
-  const sqUrl = `localhost:3000/dashboard`
+  const redirectUrl = `localhost:3000/dashboard`
+  const sqUrl = `https://app.squarelink.com/authorize?client_id=${SQ_CODE}&scope=[user]&redirect_uri=${redirectUrl}&response_type=token`
 
   return (
     <div className="Auth">
@@ -166,10 +167,10 @@ function Auth(props) {
 
       <div className="field">
           <p className="control ">
-          {SQ_CODE && <a href={`https://app.squarelink.com/authorize?client_id=${SQ_CODE}&scope=[user]&redirect_uri=${sqUrl}&response_type=token`}>
+          {SQ_CODE && <a onClick={() => handleSubmit()} className='sign-in-button'>
               <img src="https://squarelink.com/img/sign-in.svg"/>
           </a>}
-            <SectionButton
+            {false && <SectionButton
               parentColor={props.parentColor}
               size="medium"
               fullWidth={true}
@@ -180,7 +181,7 @@ function Auth(props) {
               }
             >
               {props.buttonText}
-            </SectionButton>
+            </SectionButton>}
           </p>
         </div>
 

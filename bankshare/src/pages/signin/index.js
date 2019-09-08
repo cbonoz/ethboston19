@@ -8,7 +8,7 @@ function SigninPage(props) {
       color="white"
       size="large"
       title="Welcome to BankShare"
-      subtitle="Send cryptocurrency to your friends using just your email."
+      subtitle="Send cryptocurrency to your friends using just emails."
       buttonText="Sign in"
     />
   );
