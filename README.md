@@ -1,5 +1,5 @@
 <p align='center'>
- <img src="./img/bankshare_logo.png"/>
+ <img src="./img/bankshare_logo.png" width=600/>
 </p>
 
 BankShare
