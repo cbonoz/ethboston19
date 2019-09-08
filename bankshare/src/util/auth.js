@@ -37,30 +37,34 @@ export const useAuth = () => {
 function useProvideAuth() {
   const [user, setUser] = useState(null);
 
-  const signin = (email, password) => {
-    return fakeAuth.signin(email, password).then(user => {
-      setUser(user);
-      return user;
-    });
+  const signin = (email, name) => {
+    const user = {email, name}
+    setUser(user);
+    return user;
   };
 
   const setTorusUser = (torus, user) => {
     console.log('setTorusUser', user)
+    if (user && user['data'] && user['data']['profile']) {
+      user = user['data']['profile']
+    }
+
      setUser(user)
-     window.torus = torus
-     window.web3 = new Web3(torus.provider)
+     if (torus) {
+      window.torus = torus
+      window.web3 = new Web3(torus.provider)
+     }
      if (SQ_CODE) {
      window.squareLink = new Squarelink()
      }
      return user
   }
   
-  const signup = (email, password) => {
-    return fakeAuth.signup(email, password).then(user => {
-      setUser(user);
-      return user;
-    });
-  };
+  const signup = (email, name) => {
+    const user = {email, name}
+    setUser(user);
+    return user;
+  }
 
   const signout = () => {
     return fakeAuth.signout().then(() => {
@@ -119,3 +123,4 @@ function useProvideAuth() {
 const getFromQueryString = key => {
   return queryString.parse(window.location.search)[key];
 };
+

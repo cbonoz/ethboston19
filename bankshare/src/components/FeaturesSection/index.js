@@ -10,22 +10,18 @@ function FeaturesSection(props) {
         <Features
           items={[
             {
-              title: "Tap into a network of lenders",
-              description:
-                "Create an account with just your gmail, no credit card, social security, address, or other personal information needed.",
+              title: "Expand your cryptocurrency network.",
+              description: "Create an account just by connecting your email. No credit card, social security, address, or other personal information needed.",
               image: "https://uploads.divjoy.com/undraw-mind_map_cwng.svg"
             },
             {
-              title: "We'll pair you with an offer that matches your criteria",
-              description:
-                "Powered by the Taxa network, privately search and redeem a loan with another friend in the network.",
-              image:
-                "https://uploads.divjoy.com/undraw-personal_settings_kihd.svg"
+              title: "Send cryptocurrencies in real time.",
+              description: "Friend doesn't have a cryptocurrency account? Not a problem, with BankShare we'll automatically create an account for them if needed!",
+              image: "https://uploads.divjoy.com/undraw-personal_settings_kihd.svg"
             },
             {
-              title: "Celebrate",
-              description:
-                "You got money! Pay it back on the agreed terms.",
+              title: "Celebrate!",
+              description: "You've got money! Invite more friends to the platform and start paying them back the easy way with cryptocurrency.",
               image: "https://uploads.divjoy.com/undraw-having_fun_iais.svg"
             }
           ]}

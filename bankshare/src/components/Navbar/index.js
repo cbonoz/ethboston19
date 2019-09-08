@@ -18,6 +18,7 @@ function Navbar(props) {
         const torus = new Torus();
         await torus.init()
         window.torus = torus
+        sessionStorage.setItem('pageUsingTorus', true)
       }
 
       try {
@@ -43,16 +44,15 @@ function Navbar(props) {
     };
   })
 
-  console.log('torus', window.torus)
-
   return (
+    <div>
     <NavbarContainer spaced={props.spaced} color={props.color}>
       <div className="container">
         <div className="navbar-brand">
           <div className="navbar-item">
-            <Link to="/">
+            <a href="/">
               <img className="image" src={props.logo} alt="Logo" />
-            </Link>
+            </a>
           </div>
           <div
             className={"navbar-burger burger" + (menuOpen ? " is-active" : "")}
@@ -103,6 +103,9 @@ function Navbar(props) {
         </div>
       </div>
     </NavbarContainer>
+      <div className='gray-divider'>
+      </div>
+      </div>
   );
 }
 

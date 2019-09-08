@@ -27,14 +27,14 @@ const instance = axios.create({
 // "contentTransferEncoding": "raw",
 // "code" : ""
 // }
-export const startContract = (contractName, methodName, data, params) => (
+export const startContract = (contractName, methodName, data, params, header) => (
 	instance.post(CONTRACT_URL, {
 		publickKey: TAXA_KEY,
 		contractName,
 		methodName,
 		data,
-		params,
-		header,
+		params: params || {},
+		header: header || {},
 		contentTransferEncoding: "raw",
 		code : ""
 	})

@@ -2,12 +2,14 @@ import React from "react";
 import Section from "./../Section";
 import SectionHeader from "./../SectionHeader";
 import SectionButton from "./../SectionButton";
-// import { ReactRotatingText } from 'react-rotating-text'
+import ReactRotatingText from 'react-rotating-text'
 import "./styles.scss";
 
 const ITEMS = [
-  'microlending',
-  'banking',
+  'Payments',
+  'Donations',
+  'Lending',
+  'Sharing'
 ]
 
 function HeroSection(props) {
@@ -16,9 +18,11 @@ function HeroSection(props) {
       <div className="container">
         <div className="columns is-vcentered is-desktop">
           <div className="column is-5-desktop has-text-centered-touch">
-          {/* <ReactRotatingText items={['first', 'second', 'third']} /> */}
+            <span className='header-text header-section'>
+              <ReactRotatingText className='rotating-text' items={ITEMS}/><br/>amongst friends.
+            </span>
             <SectionHeader
-              title={props.title}
+              // title={props.title}
               subtitle={props.subtitle}
               size={1}
             />

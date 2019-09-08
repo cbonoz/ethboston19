@@ -9,18 +9,9 @@ function SignIn(props) {
   const auth = useAuth()
   const [status, setStatus] = useState()
 
-  const onSubmit = ({ email, pass }) => {
+  const onSubmit = ({ email, name }) => {
     setStatus({ type: "pending" })
-    auth.signin(email, pass)
-      .then(user => {
-        props.onSignin && props.onSignin()
-      })
-      .catch(error => {
-        setStatus({
-          type: "error",
-          message: error.message
-        })
-      })
+    auth.signin(email, name)
   }
 
   return (

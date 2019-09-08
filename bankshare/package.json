@@ -20,8 +20,11 @@
     "query-string": "6.8.2",
     "react": "16.9.0",
     "react-dom": "16.9.0",
+    "react-rotating-text": "^1.4.1",
     "react-router-dom": "5.0.1",
-    "react-scripts": "3.0.1"
+    "react-scripts": "3.0.1",
+    "react-stack-grid": "^0.7.1",
+    "squarelink": "^1.0.7"
   },
   "scripts": {
     "start": "react-scripts start",

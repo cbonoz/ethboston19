@@ -6,7 +6,7 @@ import NewsletterSection from "./../../components/NewsletterSection";
 import { useRouter } from "./../../util/router.js";
 import "./styles.scss";
 
-const SUBTITLE = "BankShare is an trustless banking and key management system backed by crypto and blockchain, without the mess of managing private and public keys."
+const SUBTITLE = "BankShare is a cryptocurrency banking and lending system backed by Layer 2 protocols, without the mess of managing private and public keys. Create an account with just your email."
 
 function HomePage(props) {
   const router = useRouter();
@@ -24,6 +24,7 @@ function HomePage(props) {
           router.push("/signin");
         }}
       />
+
       <FeaturesSection
         color="white"
         size="medium"
