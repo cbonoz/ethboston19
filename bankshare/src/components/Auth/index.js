@@ -54,6 +54,7 @@ function Auth(props) {
 
   const [showErrors, setShowErrors] = useState(false)
 
+
   const loginTorusUser = async () => {
     const torus = window.torus
     try {
@@ -70,7 +71,10 @@ function Auth(props) {
           userInfo['address'] = address
         }
         auth.setTorusUser(torus, userInfo)
-        router.push("/dashboard")
+        if (userInfo.profileImage) {
+          // push dashboard if we got the connection from a provider.
+          router.push("/dashboard")
+        }
       } catch (e) {
         console.error(e)
       }
@@ -88,6 +92,10 @@ function Auth(props) {
       auth.setTorusUser(torus, existingUser)
     } else if (name && email) {
       auth.setTorusUser(torus, {name, email})
+      const redirectUrl = `http://localhost:3000/dashboard`
+      const sqUrl = encodeURI(`https://app.squarelink.com/authorize?client_id=${SQ_CODE}&scope=[user]&redirect_uri=${redirectUrl}&response_type=token`)
+      window.location.assign(sqUrl)
+
     } else {
       try {
         await loginTorusUser()
@@ -130,9 +138,6 @@ function Auth(props) {
       }
     }
   }
-
-  const redirectUrl = `localhost:3000/dashboard`
-  const sqUrl = `https://app.squarelink.com/authorize?client_id=${SQ_CODE}&scope=[user]&redirect_uri=${redirectUrl}&response_type=token`
 
   return (
     <div className="Auth">
