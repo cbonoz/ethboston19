@@ -25,37 +25,41 @@ function DashboardPage(props) {
   }, [auth])
 
   // TODO: Dashboard page after logging in.
-  // if (!auth.user) {
-  //   return null
-  // }
+  if (!auth.user) {
+    return null
+  }
+
+  const user = auth.user
 
   const inviteCurrentUser = async (userEmail) => {
     const torus = window.torus
     // TODO: invite user to platform.
   }
 
-  const setStateInfo = () => {
+  const setStateInfo = async () => {
     const web3 = window.web3
     if (web3) {
-      web3.eth.getAccounts().then(accounts => {
-        setAccount(accounts[0])
-        web3.eth.getBalance(accounts[0]).then(balance => {
-          setBalance(balance)
-        })
-      })
-    } else {
+      try {
+      const accounts = await web3.eth.getAccounts()
+      setAccount(accounts[0])
+      const balance = await web3.eth.getBalance(accounts[0])
+      setBalance(balance)
+      } catch (e) {
+        console.error(e)
+      }
+    }else {
       console.error('web3 not defined')
     }
   }
 
   setStateInfo()
 
-  const user = {
-      profileImage: "https://lh3.googleusercontent.com/a-/AAuE7mB1Gs_I-8s_v1T6A5LyvfJseQ2yf3PyJOZ4XCM6DA=s96-c",
-      name: "Chris Buonocore",
-      email: "chrisdistrict@gmail.com"
-  }
-  let { name, email, profileImage } = user
+  // const user = {
+  //     profileImage: "https://lh3.googleusercontent.com/a-/AAuE7mB1Gs_I-8s_v1T6A5LyvfJseQ2yf3PyJOZ4XCM6DA=s96-c",
+  //     name: "Chris Buonocore",
+  //     email: "chrisdistrict@gmail.com"
+  // }
+  let { name, email, profileImage, address } = user
   profileImage = profileImage || 'https://myrealdomain.com/images600_/generic-avatar.png'
 
   return (
@@ -81,6 +85,7 @@ function DashboardPage(props) {
           <div className='account-section'>
             {account && <div>Account: {account}</div>}
             {balance && <div>Balance: {balance}</div>}
+            {address && <div>Address: {address}</div>}
           </div>
           <br/>
 

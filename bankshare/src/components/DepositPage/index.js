@@ -23,6 +23,16 @@ function DepositPage(props) {
       currency
     }
     console.log("depositRequest", body)
+
+    try {
+
+    } catch (e) {
+      console.error(e)
+      // error issuing payment - cancel.
+      return
+    }
+
+
     try {
       const response = await startContract(
         "payments",
@@ -49,6 +59,8 @@ function DepositPage(props) {
     }
   }
 
+  const SQ_CODE = process.env.REACT_APP_SQ_CODE
+
   return (
     <div>
       <p>
@@ -71,7 +83,7 @@ function DepositPage(props) {
         </a>
       </div>
 
-      {address && <div>Ggenerated address: {address}<br/></div>}
+      {address && <div>Generated address: {address}<br/></div>}
       
       <input
         className="input"
@@ -80,11 +92,14 @@ function DepositPage(props) {
         placeholder="Enter amount in ETH"
       />
 
-      <a
-        className="button is-success invite-button"
-        onClick={() => depositRequest()}
-      >
-        Send Funds
+      {SQ_CODE && <a href={`https://app.squarelink.com/tx?client_id=${SQ_CODE}&to=${address}&amount=${amount}`}>
+          <img src="https://squarelink.com/img/sign-tx.svg" width="220"/>
+      </a>}
+
+      <br/>
+
+      <a className="button is-success invite-button" onClick={() => depositRequest()}>
+        Send Funds via Wallet
       </a>
 
       {showCompletedModal && (

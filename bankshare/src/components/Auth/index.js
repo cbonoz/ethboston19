@@ -17,6 +17,7 @@ function Auth(props) {
   const auth = useAuth()
   const router = useRouter()
   const [email, setEmail] = useState("")
+  const [name, setName] = useState("")
   const [pass, setPass] = useState("")
   const [confirmPass, setConfirmPass] = useState("")
   const [torus, setTorus] = useState(null)
@@ -46,6 +47,11 @@ function Auth(props) {
     if (!auth.user) {
       try {
         const userInfo = await torus.getUserInfo()
+        const email = userInfo.email
+        if (email) {
+          const address = await torus.getPublicAddress(userInfo.email)
+          userInfo['address'] = address
+        }
         auth.setTorusUser(torus, userInfo)
         router.push("/dashboard")
       } catch (e) {
@@ -131,6 +137,14 @@ function Auth(props) {
           handleSubmit()
         }}
       >
+
+        <FormField
+            value={name}
+            type="text"
+            placeholder="Name"
+            error={showErrors}
+            onChange={value => setName(value)}
+          />
         {["signup", "signin", "forgotpass"].includes(props.mode) && (
           <FormField
             value={email}
@@ -140,6 +154,8 @@ function Auth(props) {
             onChange={value => setEmail(value)}
           />
         )}
+
+        {false && <div>
 
         {["signup", "signin", "changepass"].includes(props.mode) && (
           <FormField
@@ -161,6 +177,7 @@ function Auth(props) {
           />
         )}
 
+        </div>}
         <div className="field">
           <p className="control ">
             <SectionButton
@@ -178,7 +195,7 @@ function Auth(props) {
           </p>
         </div>
 
-        {["signup", "signin"].includes(props.mode) && (
+        {false && ["signup", "signin"].includes(props.mode) && (
           <div className="Auth__bottom-link has-text-centered">
             {props.mode === "signup" && (
               <>

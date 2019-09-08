@@ -46,7 +46,12 @@ function useProvideAuth() {
   const setTorusUser = (torus, user) => {
     console.log('setTorusUser', user)
     if (user && user['data'] && user['data']['profile']) {
-      user = user['data']['profile']
+      const profile = user['data']['profile']
+      if (user['address']) {
+        profile['address'] = user['address']
+      }
+
+      user = profile
     }
 
      setUser(user)
@@ -55,7 +60,7 @@ function useProvideAuth() {
       window.web3 = new Web3(torus.provider)
      }
      if (SQ_CODE) {
-     window.squareLink = new Squarelink()
+      window.squareLink = new Squarelink()
      }
      return user
   }

@@ -25,6 +25,11 @@ function Navbar(props) {
         const torus = window.torus
         if (torus && !auth.user) {
           const userInfo = await torus.getUserInfo()
+          const email = userInfo.email
+          if (email) {
+            const address = await torus.getPublicAddress(userInfo.email)
+            userInfo['address'] = address
+          }
           auth.setTorusUser(torus, userInfo)
         }
       } catch (e) {
@@ -86,6 +91,7 @@ function Navbar(props) {
                     onClick={e => {
                       e.preventDefault();
                       auth.signout();
+                      router.push('/')
                     }}
                   >
                     Sign out
