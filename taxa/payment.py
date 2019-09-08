@@ -64,3 +64,11 @@ def reveal():
         recipient = rawData['recipient']
         response.add("Your recipient:")
         response.add(str(rawData))
+       
+# activity score. 
+@taxa.route("/post_activity")
+def reveal():
+        rawData = _pypyjson.loads(request.data)
+        recipient = rawData['recipient']
+        response.add("Your recipient:")
+        response.add(str(rawData))

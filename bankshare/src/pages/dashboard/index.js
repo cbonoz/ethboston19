@@ -57,7 +57,7 @@ function DashboardPage(props) {
   // const user = {
   //     profileImage: "https://lh3.googleusercontent.com/a-/AAuE7mB1Gs_I-8s_v1T6A5LyvfJseQ2yf3PyJOZ4XCM6DA=s96-c",
   //     name: "Chris Buonocore",
-  //     email: "chrisdistrict@gmail.com"
+  //     email: "cb@gmail.com"
   // }
   let { name, email, profileImage, address } = user
   profileImage = profileImage || 'https://myrealdomain.com/images600_/generic-avatar.png'

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react"
 import contact from "./../../util/contact.js"
 import StackGrid from "react-stack-grid";
 
+import faker from 'faker'
+
 import "./styles.scss"
 
 function LiveStream(props) {
@@ -9,10 +11,12 @@ function LiveStream(props) {
   const [blocks, setBlocks] = useState([])
 
   const addBlock = () => {
+    const sender = faker.internet.email()
+    const recipient = faker.internet.email()
     const block = {
       timestamp: Date.now(),
-      recipient: 'test@test.com',
-      sender: 'chrisdistrict@gmail.com',
+      recipient,
+      sender,
       amount: Math.random() * 5,
       currency: 'ETH'
     }

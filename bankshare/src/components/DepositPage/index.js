@@ -62,7 +62,7 @@ function DepositPage(props) {
   const SQ_CODE = process.env.REACT_APP_SQ_CODE
 
   return (
-    <div>
+    <div className='deposit-section'>
       <p>
         Send payments to friends, regardless if they have cryptocurrency
         accounts or not, via BankShare.
@@ -76,7 +76,7 @@ function DepositPage(props) {
           placeholder="Enter recipient email"
         />
         <a
-          className="button is-success validate-button"
+          className="button validate-button"
           onClick={() => validateEmail()}
         >
           Validate Email
