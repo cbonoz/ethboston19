@@ -15,7 +15,7 @@ function FeaturesSection(props) {
               image: "https://uploads.divjoy.com/undraw-mind_map_cwng.svg"
             },
             {
-              title: "Send cryptocurrencies in real time.",
+              title: "Send cryptocurrencies instantly with just an email.",
               description: "Friend doesn't have a cryptocurrency account? Not a problem, with BankShare we'll automatically create an account for them if needed!",
               image: "https://uploads.divjoy.com/undraw-personal_settings_kihd.svg"
             },

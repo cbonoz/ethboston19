@@ -95,6 +95,7 @@ function DashboardPage(props) {
             {account && <div>Account: {account}</div>}
             {balance && <div>Balance: {balance}</div>}
             {address && <div>Address: {address}</div>}
+            <div>Activity Score:<br/>0</div>
           </div>
           <br/>
 

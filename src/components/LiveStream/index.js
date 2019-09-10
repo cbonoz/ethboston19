@@ -48,7 +48,7 @@ function LiveStream(props) {
             Recent Transaction
           </div>
           <div className="live-block" key={i}>
-            {dateString}<br/>
+            <b>{dateString}</b><br/>
             {sender} -> {recipient}<br/>
             {amount.toFixed(5)} {currency}<br/>
           </div>

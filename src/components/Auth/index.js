@@ -92,9 +92,9 @@ function Auth(props) {
       auth.setTorusUser(torus, existingUser)
     } else if (name && email) {
       auth.setTorusUser(torus, {name, email})
-      const redirectUrl = `http://localhost:3000/dashboard`
-      const sqUrl = encodeURI(`https://app.squarelink.com/authorize?client_id=${SQ_CODE}&scope=[user]&redirect_uri=${redirectUrl}&response_type=token`)
-      window.location.assign(sqUrl)
+      // const redirectUrl = `http://localhost:3000/dashboard`
+      // const sqUrl = encodeURI(`https://app.squarelink.com/authorize?client_id=${SQ_CODE}&scope=[user]&redirect_uri=${redirectUrl}&response_type=token`)
+      // window.location.assign(sqUrl)
 
     } else {
       try {
@@ -160,6 +160,7 @@ function Auth(props) {
             error={showErrors}
             onChange={value => setName(value)}
           />
+
         {["signup", "signin", "forgotpass"].includes(props.mode) && (
           <FormField
             value={email}
@@ -172,7 +173,7 @@ function Auth(props) {
 
       <div className="field">
           <p className="control ">
-          {SQ_CODE && <a onClick={() => handleSubmit()} className='sign-in-button'>
+          {true && SQ_CODE && <a onClick={() => handleSubmit()} className='sign-in-button'>
               <img src="https://squarelink.com/img/sign-in.svg"/>
           </a>}
             {false && <SectionButton

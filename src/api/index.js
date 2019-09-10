@@ -7,7 +7,7 @@ if (!TAXA_KEY) {
 }
 
 const SERVER_PORT = 8002
-export const BASE_URL = `https://13.82.190.26:${SERVER_PORT}` // Taxa node.
+export const BASE_URL = `http://13.82.190.26:${SERVER_PORT}` // Taxa node.
 export const CONTRACT_URL = `${BASE_URL}/api/contract/start`
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
@@ -29,15 +29,20 @@ const instance = axios.create({
 // "contentTransferEncoding": "raw",
 // "code" : ""
 // }
+
+
 export const startContract = (contractName, methodName, data, params, header) => {
-	return instance.post(CONTRACT_URL,{
+	let body = {
 		publicKey: TAXA_KEY,
 		contractName,
 		methodName,
 		data,
-		params: params || {},
-		header: header || {},
+		params: params || {a: "3"},
+		header: header || {user: "text"},
 		contentTransferEncoding: "raw",
 		code : ""
-	})
+	}
+	body = JSON.stringify(body)
+	console.log('body', body)
+	return instance.post(CONTRACT_URL, body)
 }

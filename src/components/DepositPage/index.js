@@ -17,15 +17,15 @@ function DepositPage(props) {
   const depositRequest = async () => {
     const user = auth.user
     const sender = user.email
-    const body = {
+    let body = {
       timestamp: Date.now(),
       recipient,
       address,
       sender: sender || "",
-      amount,
+      amount: parseFloat(amount),
       currency
     }
-    console.log("depositRequest", body)
+    body = JSON.stringify(body)
     console.log('user', user)
 
     if (!recipient || !amount) {
@@ -40,22 +40,23 @@ function DepositPage(props) {
 
     try {
       const response = await startContract(
-        "payments",
+        "payment",
         "create",
-        JSON.stringify(body)
+        body
       )
       console.log("resp", response)
-      const data = JSON.parse(response)
-      setShowCompletedModal(true)
+      // const data = JSON.parse(response)
     } catch (e) {
       console.error("error creating payment", e)
     }
+    setShowCompletedModal(true)
 
     if (false && SQ_CODE) { //  && !user['profileImage']) {
       // No gmail auth, use squarelink.
-      const wei = amount / 1000000
-      const url = `https://app.squarelink.com/tx?client_id=${SQ_CODE}&to=${address}&amount=${wei}`
-      window.location.assign(url)
+      const wei = parseFloat(amount) * 1000000 // should be 10**18
+      const url = `https://app.squarelink.com/tx?client_id=${SQ_CODE}&to=${address}&value=${wei}`
+      console.log(url)
+      // window.location.assign(url)
       return
     }
 
@@ -120,7 +121,8 @@ function DepositPage(props) {
       </div>
       <br />
 
-      <a className="invite-button" onClick={() => depositRequest()}>
+      <a className="send-button" onClick={() => depositRequest()}>
+        {/* Send it! */}
         <img src="https://squarelink.com/img/sign-tx.svg" width="220" />
       </a>
 
